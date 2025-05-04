@@ -3,31 +3,39 @@
 {% block content %}
 <h2>Relatório - Apuração do Equilíbrio Técnico Ajustado</h2>
 
-<!-- Resultado Realizado -->
-<div>
-    <label for="resultado_realizado">Resultado Realizado (R$):</label>
-    <span class="tooltip" data-tooltip="O valor real apurado do equilíbrio técnico ajustado após as análises e ajustes.">
-        <i class="fas fa-info-circle"></i>
-    </span>
-    <input type="number" id="resultado_realizado" name="resultado_realizado" step="0.01" required><br><br>
-</div>
+<form method="POST">
+    <!-- Resultado Realizado -->
+    <div>
+        <label for="resultado_realizado">Resultado Realizado (R$):</label>
+        <span class="tooltip" data-tooltip="O valor real apurado do equilíbrio técnico ajustado após as análises e ajustes.">
+            <i class="fas fa-info-circle"></i>
+        </span>
+        <input type="number" id="resultado_realizado" name="resultado_realizado" step="0.01" required><br><br>
+    </div>
 
-<!-- Ajuste de Precificação -->
-<div>
-    <label for="ajuste_precificacao">Ajuste de Precificação (R$):</label>
-    <span class="tooltip" data-tooltip="Refere-se ao ajuste aplicado ao valor da precificação com base em variáveis técnicas e econômicas.">
-        <i class="fas fa-info-circle"></i>
-    </span>
-    <input type="number" id="ajuste_precificacao" name="ajuste_precificacao" step="0.01" required><br><br>
-</div>
+    <!-- Ajuste de Precificação -->
+    <div>
+        <label for="ajuste_precificacao">Ajuste de Precificação (R$):</label>
+        <span class="tooltip" data-tooltip="Refere-se ao ajuste aplicado ao valor da precificação com base em variáveis técnicas e econômicas.">
+            <i class="fas fa-info-circle"></i>
+        </span>
+        <input type="number" id="ajuste_precificacao" name="ajuste_precificacao" step="0.01" required><br><br>
+    </div>
 
-<button type="submit">Gerar Relatório</button>
+    <button type="submit">Gerar Relatório</button>
+</form>
 
-{% if resultados %}
-<hr>
-<h3>Resultado do Relatório</h3>
-<p><strong>Resultado Realizado:</strong> R$ {{ resultados.resultado_realizado }}</p>
-<p><strong>Ajuste de Precificação:</strong> R$ {{ resultados.ajuste_precificacao }}</p>
+{% if dados_relatorio %}
+    <hr>
+    <h3>Resultado do Relatório</h3>
+
+    {% if dados_relatorio.erro %}
+        <p style="color: red;">{{ dados_relatorio.erro }}</p>
+    {% else %}
+        <p><strong>Resultado Realizado:</strong> R$ {{ dados_relatorio.resultado_realizado }}</p>
+        <p><strong>Ajuste de Precificação:</strong> R$ {{ dados_relatorio.ajuste_precificacao }}</p>
+        <p><strong>Resultado Ajustado:</strong> R$ {{ dados_relatorio.resultado_ajustado }}</p>
+    {% endif %}
 {% endif %}
 
 {% endblock %}

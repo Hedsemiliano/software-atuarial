@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, send_from_directory
+from flask import  Flask, render_template, request, redirect, url_for, send_from_directory
 from validate_docbr import CNPJ
 from hipoteses.hipoteses import carregar_parametros_economicos
 from hipoteses.hipoteses import carregar_hipotese_aposentadoria
@@ -118,12 +118,10 @@ def carregar_tabua(caminho=CAMINHO_TABUA_PADRAO):
 
 
 
-# Definindo a função index() com os cálculos principais
+
 @app.route("/")
 def index():
     tabua = carregar_tabua_mortalidade()  # usa a padrão
-    # ou, se quiser testar outra:
-    # tabua = carregar_tabua_mortalidade("AT2000.csv")
     dados_ente = carregar_dados_ente()
     massa = carregar_massa()
     estatisticas = calcular_estatisticas(massa)
@@ -154,11 +152,6 @@ def index():
                            pdf_url=pdf_url)
 
 
-
-
-
-
-
 @app.route("/hipoteses/patrimonio", methods=["GET", "POST"])
 def mostrar_patrimonio():
     valor_patrimonio = None
@@ -169,6 +162,7 @@ def mostrar_patrimonio():
     return render_template("hipoteses/patrimonio.html",
                            valor_patrimonio=valor_patrimonio,
                            analise_ativos=analise_ativos)
+
 
 
 
@@ -250,10 +244,15 @@ def simulacao_atuarial():
 @app.route("/relatorio", methods=["GET", "POST"])
 def relatorio():
     if request.method == "POST":
-        resultado_realizado = float(request.form["resultado"])
-        ajuste = float(request.form["ajuste"])
-        dados = calcular_equilibrio_tecnico(resultado_realizado, ajuste)
-        return render_template("relatorio.html", dados=dados)
+        try:
+            resultado_realizado = float(request.form["resultado"])
+            ajuste = float(request.form["ajuste"])
+            dados = calcular_equilibrio_tecnico(resultado_realizado, ajuste)
+            return render_template("relatorio.html", dados=dados)
+        except ValueError:
+            # Caso a conversão para float falhe, você pode retornar uma mensagem de erro
+            erro = "Por favor, insira números válidos."
+            return render_template("relatorio.html", dados=None, erro=erro)
     return render_template("relatorio.html", dados=None)
 
 

@@ -22,7 +22,6 @@ def carregar_parametros_economicos():
         "indice_reajuste": "INPC (IBGE)"
     }
 
-# Rota para exibir as hipóteses
 @hipoteses_bp.route("/", methods=["GET", "POST"])
 def mostrar_hipoteses():
     tabua = pd.DataFrame()
@@ -58,8 +57,8 @@ def mostrar_hipoteses():
 
     return render_template(
         "hipoteses.html",
-        tabua=tabua,
-        aposentadoria=aposentadoria,
+        tabua=tabua.to_dict(orient="records"),
+        aposentadoria=aposentadoria.to_dict(orient="records"),
         parametros=parametros,
         valor_patrimonio=valor_patrimonio,
         analise_ativos=analise_ativos

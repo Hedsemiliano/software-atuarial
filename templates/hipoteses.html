@@ -41,13 +41,13 @@
       </tr>
     </thead>
     <tbody>
-      {% for linha in tabua.itertuples() %}
-      <tr>
-        <td>{{ linha.idade }}</td>
-        <td>{{ '{:.5f}'.format(linha.qx_m) }}</td>
-        <td>{{ '{:.5f}'.format(linha.qx_f) }}</td>
-      </tr>
-      {% endfor %}
+{% for linha in tabua %}
+  <tr>
+    <td>{{ linha.idade }}</td>
+    <td>{{ '{:.5f}'.format(linha.qx_m) }}</td>
+    <td>{{ '{:.5f}'.format(linha.qx_f) }}</td>
+  </tr>
+{% endfor %}
     </tbody>
   </table>
 
@@ -60,36 +60,35 @@
         <th>Taxa de Entrada</th>
       </tr>
     </thead>
-    <tbody>
-      {% for linha in aposentadoria.itertuples() %}
-      <tr>
-        <td>{{ linha.idade }}</td>
-        <td>{{ '{:.2%}'.format(linha.taxa_entrada_aposentadoria) }}</td>
-      </tr>
-      {% endfor %}
+{% for linha in aposentadoria %}
+  <tr>
+    <td>{{ linha.idade }}</td>
+    <td>{{ '{:.3%}'.format(linha.taxa_entrada_aposentadoria) }}</td>
+  </tr>
+{% endfor %}
     </tbody>
   </table>
 
-  <!-- Parâmetros Econômicos -->
-  <h3>Parâmetros Econômicos</h3>
-  <table>
-    <thead>
-      <tr>
-        <th>Parâmetro</th>
-        <th>Valor</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>Taxa Real de Juros</td>
-        <td>{{ '{:.2%}'.format(parametros.taxa_juros_real) }}</td>
-      </tr>
-      <tr>
-        <td>Índice de Reajuste de Benefícios</td>
-        <td>{{ parametros.indice_reajuste }}</td>
-      </tr>
-    </tbody>
-  </table>
+<!-- Parâmetros Econômicos -->
+<h3>Parâmetros Econômicos</h3>
+<table>
+  <thead>
+    <tr>
+      <th>Parâmetro</th>
+      <th>Valor</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Taxa Real de Juros</td>
+      <td>{{ '{:.2%}'.format(parametros["taxa_juros_real"]) }}</td>
+    </tr>
+    <tr>
+      <td>Índice de Reajuste de Benefícios</td>
+      <td>{{ parametros["indice_reajuste"] }}</td>
+    </tr>
+  </tbody>
+</table>
 
   <!-- Patrimônio Social -->
   <h3>Patrimônio Social</h3>

@@ -20,8 +20,9 @@
   <!-- Navegação entre as páginas -->
   <nav>
     <a href="{{ url_for('index') }}">Início</a>
-    <a href="{{ url_for('mostrar_hipoteses') }}">Hipóteses Atuariais</a>
-    <a href="{{ url_for('mostrar_estatisticas') }}">Estatísticas</a>
+    <a href="{{ url_for('hipoteses.mostrar_hipoteses') }}">Hipóteses Atuariais</a>
+    <a href="{{ url_for('estatisticas.mostrar_estatisticas') }}">Estatísticas</a>
+
   </nav>
 
   <div class="section">
