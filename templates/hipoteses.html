@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h2>Hipóteses Atuariais</h2>
+  <p>Aqui estão as hipóteses atuariais para análise.</p>
+
+  <!-- Formulário para carregar uma nova tábua de mortalidade -->
+  <form method="POST" enctype="multipart/form-data">
+    <label for="file">Carregar nova Tábua de Mortalidade (CSV):</label>
+    <input type="file" name="file" accept=".csv">
+    <button type="submit">Carregar</button>
+  </form>
+
+  <style>
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 8px 12px;
+      text-align: center;
+    }
+    th {
+      background-color: #f4f4f4;
+    }
+    h3 {
+      margin-top: 30px;
+    }
+  </style>
+
+  <!-- Tábua de Mortalidade -->
+  <h3>Tábua de Mortalidade</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Idade</th>
+        <th>qx Masculino</th>
+        <th>qx Feminino</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for linha in tabua.itertuples() %}
+      <tr>
+        <td>{{ linha.idade }}</td>
+        <td>{{ '{:.5f}'.format(linha.qx_m) }}</td>
+        <td>{{ '{:.5f}'.format(linha.qx_f) }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <!-- Hipótese de Entrada em Aposentadoria -->
+  <h3>Hipótese de Entrada em Aposentadoria</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Idade</th>
+        <th>Taxa de Entrada</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for linha in aposentadoria.itertuples() %}
+      <tr>
+        <td>{{ linha.idade }}</td>
+        <td>{{ '{:.2%}'.format(linha.taxa_entrada_aposentadoria) }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <!-- Parâmetros Econômicos -->
+  <h3>Parâmetros Econômicos</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Parâmetro</th>
+        <th>Valor</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Taxa Real de Juros</td>
+        <td>{{ '{:.2%}'.format(parametros.taxa_juros_real) }}</td>
+      </tr>
+      <tr>
+        <td>Índice de Reajuste de Benefícios</td>
+        <td>{{ parametros.indice_reajuste }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Patrimônio Social -->
+  <h3>Patrimônio Social</h3>
+  <form method="POST">
+    <label for="patrimonio">Valor do Patrimônio Social:</label><br>
+    <input type="text" id="patrimonio" name="patrimonio" placeholder="R$" required><br><br>
+
+    <label>
+      <input type="checkbox" name="analise_ativos" {% if analise_ativos %}checked{% endif %}>
+      Foi realizada análise da qualidade dos ativos
+    </label><br><br>
+
+    <button type="submit">Salvar</button>
+  </form>
+
+  {% if valor_patrimonio %}
+    <hr>
+    <p><strong>Valor registrado:</strong> R$ {{ valor_patrimonio }}</p>
+    {% if analise_ativos %}
+      <p><strong>Análise dos ativos:</strong> Foi realizada.</p>
+    {% else %}
+      <p><strong>Análise dos ativos:</strong> Não foi realizada.</p>
+    {% endif %}
+  {% endif %}
+{% endblock %}

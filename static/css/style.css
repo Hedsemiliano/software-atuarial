@@ -1,0 +1,31 @@
+/* static/css/style.css */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+nav {
+    background-color: #333;
+    color: white;
+    padding: 10px;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    margin: 0 10px;
+}
+
+nav a:hover {
+    text-decoration: underline;
+}
+
+hr {
+    margin: 20px 0;
+}
+
+h2 {
+    color: #333;
+}

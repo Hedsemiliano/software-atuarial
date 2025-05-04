@@ -1,0 +1,54 @@
+<!-- templates/simulacao.html -->
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Simulação Atuarial</h2>
+
+<form method="POST">
+    <label for="ano">Ano:</label>
+    <input type="number" name="ano" required><br><br>
+
+    <label for="folha">Folha de Pagamento (R$):</label>
+    <input type="number" step="0.01" name="folha" required><br><br>
+
+    <label for="receita">Receita Prevista (R$):</label>
+    <input type="number" step="0.01" name="receita" required><br><br>
+
+    <label for="despesa">Despesa Prevista (R$):</label>
+    <input type="number" step="0.01" name="despesa" required><br><br>
+
+    <button type="submit">Executar Simulação</button>
+</form>
+
+{% if resultados %}
+<hr>
+<h3>Resultados da Simulação - {{ resultados.ano }}</h3>
+<p><strong>Resultado Financeiro:</strong> R$ {{ resultados.resultado }}</p>
+<p><strong>Saldo Final com Folha:</strong> R$ {{ resultados.saldo }}</p>
+{% endif %}
+
+<!-- Verificando se a tábua existe antes de tentar exibi-la -->
+{% if tabua %}
+    <h3>Tábua de Mortalidade</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Faixa Etária</th>
+                <th>Taxa Masculina</th>
+                <th>Taxa Feminina</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for linha in tabua.itertuples() %}
+                <tr>
+                    <td>{{ linha.faixa_etaria }}</td>
+                    <td>{{ '{:.5f}'.format(linha.taxa_mortalidade_masculino) }}</td>
+                    <td>{{ '{:.5f}'.format(linha.taxa_mortalidade_feminino) }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>Tábua de mortalidade não disponível.</p>
+{% endif %}
+{% endblock %}

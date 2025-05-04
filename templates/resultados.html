@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Resultados - Limite de Equacionamento de Déficit</h2>
+
+<!-- Formulário para inserir os valores -->
+<form method="POST">
+    <label for="duracao_passivo">Duração do Passivo:</label>
+    <input type="number" name="duracao_passivo" step="0.0001" required><br><br>
+
+    <label for="provisoes_matematicas">Provisões Matemáticas (R$):</label>
+    <input type="number" name="provisoes_matematicas" step="0.01" required><br><br>
+
+    <button type="submit">Calcular Limite de Déficit</button>
+</form>
+
+<!-- Exibindo o resultado do cálculo -->
+{% if duracao is not none and provisoes is not none %}
+    <h3>Resultados do Cálculo</h3>
+    <table>
+        <tr><th>Duração do Passivo</th><td>{{ '%.4f'|format(duracao) }}</td></tr>
+        <tr><th>Provisões Matemáticas</th><td>R$ {{ '%.2f'|format(provisoes) }}</td></tr>
+        <tr><th>Percentual Limite</th><td>{{ '%.4f'|format(limite_pct) }}%</td></tr>
+        <tr><th>Limite Máximo do Déficit</th><td>R$ {{ '%.2f'|format(limite_deficit) }}</td></tr>
+    </table>
+{% endif %}
+{% endblock %}
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Resultados - Limite de Equacionamento de Déficit</h2>
+
+<table>
+  <tr><th>Duração do Passivo</th><td>{{ '%.4f'|format(duracao) }}</td></tr>
+  <tr><th>Provisões Matemáticas</th><td>R$ {{ '%.2f'|format(provisoes) }}</td></tr>
+  <tr><th>Percentual Limite</th><td>{{ '%.4f'|format(limite_pct) }}%</td></tr>
+  <tr><th>Limite Máximo do Déficit</th><td>R$ {{ '%.2f'|format(limite_deficit) }}</td></tr>
+</table>
+{% endblock %}
+

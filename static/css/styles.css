@@ -1,0 +1,63 @@
+/* Estilos gerais para o corpo da página */
+body {
+  font-family: Arial, sans-serif; /* Define a fonte usada no site */
+  margin: 0; /* Remove margens padrão */
+  padding: 0 20px; /* Adiciona espaçamento nas laterais */
+  background-color: #f9f9f9; /* Define a cor de fundo da página */
+}
+
+/* Estilo para o cabeçalho */
+header {
+  background-color: #004080; /* Cor de fundo do cabeçalho */
+  color: white; /* Cor do texto do cabeçalho */
+  padding: 20px 0; /* Padding (espaçamento interno) no cabeçalho */
+  text-align: center; /* Centraliza o texto do cabeçalho */
+}
+
+/* Estilo para a navegação */
+nav {
+  background-color: #e6e6e6; /* Cor de fundo da barra de navegação */
+  padding: 10px; /* Espaçamento interno */
+  text-align: center; /* Centraliza os links */
+}
+
+/* Estilo para os links da navegação */
+nav a {
+  color: #004080; /* Cor dos links */
+  text-decoration: none; /* Remove o sublinhado dos links */
+  margin: 0 15px; /* Adiciona espaçamento entre os links */
+  font-weight: bold; /* Deixa os links em negrito */
+}
+
+/* Estilo para os links ao passar o mouse */
+nav a:hover {
+  text-decoration: underline; /* Sublinha o link ao passar o mouse */
+}
+
+/* Estilo para o conteúdo principal */
+.content {
+  background-color: white; /* Cor de fundo do conteúdo */
+  padding: 20px; /* Adiciona espaçamento ao conteúdo */
+  margin: 20px auto; /* Centraliza o conteúdo */
+  max-width: 1000px; /* Limita a largura máxima do conteúdo */
+  border-radius: 8px; /* Bordas arredondadas */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Sombra suave */
+}
+
+/* Estilo para os títulos de seção */
+h2 {
+  color: #004080; /* Cor do título */
+}
+
+/* Estilo para as seções */
+.section {
+  margin-bottom: 30px; /* Espaçamento inferior para as seções */
+}
+
+/* Estilo para o rodapé */
+footer {
+  text-align: center; /* Centraliza o texto do rodapé */
+  padding: 15px; /* Espaçamento interno do rodapé */
+  font-size: 0.9em; /* Tamanho de fonte menor */
+  color: #888; /* Cor do texto do rodapé */
+}

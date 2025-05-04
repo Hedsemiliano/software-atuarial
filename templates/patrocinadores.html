@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Patrocinadores e Instituidores</h2>
+
+<p>São patrocinadoras do Plano as empresas referidas no item a seguir.</p>
+
+<form method="POST" action="/patrocinadores">
+  <div id="patrocinadores-container">
+    <div class="form-group">
+      <label>CNPJ:</label>
+      <input type="text" name="cnpj[]" class="form-control" required placeholder="00.000.000/0000-00">
+      <label>Razão Social:</label>
+      <input type="text" name="razao[]" class="form-control" required>
+    </div>
+  </div>
+
+  <button type="button" class="btn btn-secondary" onclick="adicionarPatrocinador()">Adicionar outro</button>
+  <button type="submit" class="btn btn-primary">Salvar</button>
+</form>
+
+<script>
+function adicionarPatrocinador() {
+  const container = document.getElementById("patrocinadores-container");
+  const novo = document.createElement("div");
+  novo.classList.add("form-group");
+  novo.innerHTML = `
+    <label>CNPJ:</label>
+    <input type="text" name="cnpj[]" class="form-control" required placeholder="00.000.000/0000-00">
+    <label>Razão Social:</label>
+    <input type="text" name="razao[]" class="form-control" required>
+  `;
+  container.appendChild(novo);
+}
+</script>
+
+{% if patrocinadores is defined %}
+  <hr>
+  <h3>Resumo dos Patrocinadores Válidos</h3>
+  {% if patrocinadores %}
+    <ul>
+      {% for p in patrocinadores %}
+        <li><strong>{{ p['cnpj'] }}</strong> - {{ p['razao'] }}</li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p><em>Não há patrocinadores informados ou CNPJs inválidos.</em></p>
+  {% endif %}
+{% endif %}
+{% endblock %}

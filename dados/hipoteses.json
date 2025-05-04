@@ -1,0 +1,12 @@
+{
+  "taxa_juros_nominal": 0.05,
+  "taxa_juros_real": 0.03,
+  "taxa_crescimento_salarial": 0.04,
+  "taxa_mortalidade": {
+    "60": 0.005,
+    "61": 0.006,
+    "62": 0.007
+  },
+  "taxa_invalidez": 0.001,
+  "taxa_entrada_servidores": 0.02
+}

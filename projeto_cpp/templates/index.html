@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Relatório Atuarial RPPS</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 2rem; }
+    h2 { border-bottom: 1px solid #ccc; padding-bottom: 0.5rem; }
+    .section { margin-bottom: 2rem; }
+    table { width: 100%; border-collapse: collapse; margin-top: 0.5rem; }
+    th, td { border: 1px solid #ddd; padding: 0.5rem; text-align: left; }
+  </style>
+</head>
+<body>
+  <h1>Relatório Atuarial RPPS</h1>
+
+  <div class="section">
+    <h2>1. Informações do Ente</h2>
+    <ul>
+      {% for k, v in dados_ente.items() %}
+        <li><strong>{{ k.replace('_',' ').capitalize() }}:</strong> {{ v }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>2. Estatísticas da Massa</h2>
+    <table>
+      <tr><th>Grupo</th><th>Qtd</th><th>Idade Média</th></tr>
+      {% for grupo, stats in estatisticas.items() if grupo != 'total' %}
+      <tr>
+        <td>{{ grupo.capitalize() }}</td>
+        <td>{{ stats['quantidade'] }}</td>
+        <td>{{ '%.1f'|format(stats['idade_media']) }} anos</td>
+      </tr>
+      {% endfor %}
+      <tr><td><strong>Total</strong></td><td colspan="2">{{ estatisticas['total'] }}</td></tr>
+    </table>
+  </div>
+
+  <div class="section">
+    <h2>3. Hipóteses Atuariais</h2>
+    <ul>
+      {% for chave, valor in hipoteses.items() %}
+        {% if valor is mapping %}
+          <li><strong>{{ chave.replace('_',' ').capitalize() }}:</strong>
+            <ul>
+            {% for idade, taxa in valor.items() %}
+              <li>Idade {{ idade }}: {{ '%.2f'|format(taxa*100) }}%</li>
+            {% endfor %}
+            </ul>
+          </li>
+        {% else %}
+          <li><strong>{{ chave.replace('_',' ').capitalize() }}:</strong> {{ '%.2f'|format(valor*100) }}%</li>
+        {% endif %}
+      {% endfor %}
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>4. Projeção Atuarial</h2>
+    <p>Provisão total: R$ {{ '%.2f'|format(provisao) }}</p>
+    <p>Alíquota: {{ '%.2f'|format(aliquota) }}%</p>
+  </div>
+
+  <div class="section">
+    <h2>5. Plano de Custeio</h2>
+    <ul>
+      <li><strong>Receita Total:</strong> R$ {{ '%.2f'|format(plano['receita_total']) }}</li>
+      <li><strong>Status:</strong> {{ plano['status'] }}</li>
+      <li><strong>Diferença:</strong> R$ {{ '%.2f'|format(plano['diferenca']|abs) }}</li>
+      <li><strong>Alíquota Ativa:</strong> {{ '%.2f'|format(plano['aliquota_ativa_pct']) }}%</li>
+      <li><strong>Alíquota Patronal:</strong> {{ '%.2f'|format(plano['aliquota_patronal_pct']) }}%</li>
+    </ul>
+  </div>
+
+  <p>
+    <a href="{{ pdf_url }}" target="_blank">Visualizar PDF</a> |
+    <a href="{{ url_for('download_report') }}">Download PDF</a>
+  </p>
+</body>
+</html>

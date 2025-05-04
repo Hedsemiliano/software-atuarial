@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Relatório - Apuração do Equilíbrio Técnico Ajustado</h2>
+
+<!-- Resultado Realizado -->
+<div>
+    <label for="resultado_realizado">Resultado Realizado (R$):</label>
+    <span class="tooltip" data-tooltip="O valor real apurado do equilíbrio técnico ajustado após as análises e ajustes.">
+        <i class="fas fa-info-circle"></i>
+    </span>
+    <input type="number" id="resultado_realizado" name="resultado_realizado" step="0.01" required><br><br>
+</div>
+
+<!-- Ajuste de Precificação -->
+<div>
+    <label for="ajuste_precificacao">Ajuste de Precificação (R$):</label>
+    <span class="tooltip" data-tooltip="Refere-se ao ajuste aplicado ao valor da precificação com base em variáveis técnicas e econômicas.">
+        <i class="fas fa-info-circle"></i>
+    </span>
+    <input type="number" id="ajuste_precificacao" name="ajuste_precificacao" step="0.01" required><br><br>
+</div>
+
+<button type="submit">Gerar Relatório</button>
+
+{% if resultados %}
+<hr>
+<h3>Resultado do Relatório</h3>
+<p><strong>Resultado Realizado:</strong> R$ {{ resultados.resultado_realizado }}</p>
+<p><strong>Ajuste de Precificação:</strong> R$ {{ resultados.ajuste_precificacao }}</p>
+{% endif %}
+
+{% endblock %}

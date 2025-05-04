@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Estatísticas dos Participantes</h2>
+<p>As estatísticas a seguir estão posicionadas na data-base do cadastro <strong>(30/06/2024)</strong>, e se referem à totalidade dos participantes e assistidos do Plano>
+
+<form action="/estatisticas" method="POST">
+  <div class="form-group">
+    <label for="data_base">Data-base:</label>
+    <input type="date" id="data_base" name="data_base" class="form-control" required>
+  </div>
+
+  <h4>Participantes Ativos</h4>
+  <div class="form-group">
+    <label for="ativos_qtd">Quantidade de Ativos:</label>
+    <input type="number" id="ativos_qtd" name="ativos_qtd" class="form-control" required>
+  </div>
+
+  <div class="form-group">
+    <label for="autopatrocinados_qtd">Autopatrocinados:</label>
+    <input type="number" id="autopatrocinados_qtd" name="autopatrocinados_qtd" class="form-control" required>
+  </div>
+
+  <div class="form-group">
+    <label for="bpd_qtd">Benefício Proporcional Diferido (BPD):</label>
+    <input type="number" id="bpd_qtd" name="bpd_qtd" class="form-control" required>
+  </div>
+
+  <div class="form-group">
+    <label for="idade_media">Idade Média (anos):</label>
+    <input type="number" step="0.1" id="idade_media" name="idade_media" class="form-control" required>
+  </div>
+
+  <div class="form-group">
+    <label for="tempo_servico">Tempo de Serviço Médio (anos):</label>
+    <input type="number" step="0.1" id="tempo_servico" name="tempo_servico" class="form-control" required>
+</div>
+
+  <div class="form-group">
+    <label for="tempo_contribuicao">Tempo de Contribuição Médio (anos):</label>
+    <input type="number" step="0.1" id="tempo_contribuicao" name="tempo_contribuicao" class="form-control" required>
+  </div>
+
+  <div class="form-group">
+    <label for="tempo_servico_futuro">Tempo de Serviço Futuro Médio (anos):</label>
+    <input type="number" step="0.1" id="tempo_servico_futuro" name="tempo_servico_futuro" class="form-control" required>
+  </div>
+
+  <div class="form-group">
+    <label for="folha_ativos">Folha Anual de Salário (R$):</label>
+    <input type="number" step="0.01" id="folha_ativos" name="folha_ativos" class="form-control" required>
+  </div>
+
+<h4>Assistidos</h4>
+{% for tipo in ['aposentadoria_normal', 'aposentadoria_antecipada', 'beneficio_proporcional', 'invalidez', 'pensao'] %}
+  <div class="form-group">
+    <label for="{{ tipo }}_qtd">Quantidade de {{ tipo.replace('_', ' ').title() }}:</label>
+    <input type="number" id="{{ tipo }}_qtd" name="{{ tipo }}_qtd" class="form-control" required>
+  </div>
+  <div class="form-group">
+    <label for="{{ tipo }}_idade">Idade Média:</label>
+    <input type="number" step="0.1" id="{{ tipo }}_idade" name="{{ tipo }}_idade" class="form-control" required>
+  </div>
+  {% if tipo != 'invalidez' %}
+  <div class="form-group">
+    <label for="{{ tipo }}_valor">Valor Médio (R$):</label>
+    <input type="number" step="0.01" id="{{ tipo }}_valor" name="{{ tipo }}_valor" class="form-control" required>
+  </div>
+  {% endif %}
+{% endfor %}
+
+<h4>Patrocinadores e Instituidores</h4>
+<p>(São patrocinadoras do Plano as empresas referidas no item a seguir.)</p>
+{% for i in range(1, 5) %}
+  <div class="form-group">
+    <label for="patrocinador_nome_{{ i }}">Razão Social {{ i }}:</label>
+    <input type="text" id="patrocinador_nome_{{ i }}" name="patrocinador_nome_{{ i }}" class="form-control">
+  </div>
+  <div class="form-group">
+    <label for="patrocinador_cnpj_{{ i }}">CNPJ {{ i }}:</label>
+    <input type="text" id="patrocinador_cnpj_{{ i }}" name="patrocinador_cnpj_{{ i }}" class="form-control" placeholder="00.000.000/0000-00" pattern="\d{2}\.\d{3}\.\d{3>
+  </div>
+{% endfor %}
+
+<button type="submit" class="btn btn-primary mt-3">Enviar</button>
+</form>
+
+{% if estatisticas and not estatisticas.get("erro") %}
+<hr>
+<h3>Resumo das Estatísticas</h3>
+
+<h4>Participantes Ativos</h4>
+<ul>
+  <li><strong>Quantidade de Ativos:</strong> {{ estatisticas['ativos_qtd'] }}</li>
+  <li><strong>Autopatrocinados:</strong> {{ estatisticas['autopatrocinados_qtd'] }}</li>
+  <li><strong>Benefício Proporcional Diferido (BPD):</strong> {{ estatisticas['bpd_qtd'] }}</li>
+  <li><strong>Idade Média:</strong> {{ estatisticas['idade_media'] }} anos</li>
+  <li><strong>Tempo de Serviço Médio:</strong> {{ estatisticas['tempo_servico'] }} anos</li>
+  <li><strong>Tempo de Contribuição Médio:</strong> {{ estatisticas['tempo_contribuicao'] }} anos</li>
+  <li><strong>Tempo de Serviço Futuro Médio:</strong> {{ estatisticas['tempo_servico_futuro'] }} anos</li>
+  <li><strong>Folha Anual de Salário:</strong> R$ {{ '%.2f'|format(estatisticas['folha_ativos']) }}</li>
+</ul>
+
+<h4>Assistidos</h4>
+<ul>
+  <li><strong>Aposentadoria Normal:</strong> {{ estatisticas['aposentadoria_normal_qtd'] }} benefícios, Idade Média: {{ estatisticas['aposentadoria_normal_idade'] }} an>
+  <li><strong>Aposentadoria Antecipada:</strong> {{ estatisticas['aposentadoria_antecipada_qtd'] }} benefícios, Idade Média: {{ estatisticas['aposentadoria_antecipada_i>
+  <li><strong>Benefício Proporcional:</strong> {{ estatisticas['beneficio_proporcional_qtd'] }} benefícios, Idade Média: {{ estatisticas['beneficio_proporcional_idade']>
+  <li><strong>Aposentadoria por Invalidez:</strong> {{ estatisticas['aposentadoria_invalidez_qtd'] }} benefícios, Idade Média: {{ estatisticas['aposentadoria_invalidez_>
+  <li><strong>Pensão por Morte:</strong> {{ estatisticas['pensao_morte_qtd'] }} benefícios, Idade Média: {{ estatisticas['pensao_morte_idade'] }} anos, Valor Médio: R$ >
+</ul>
+
+<h4>Patrocinadores e Instituidores</h4>
+{% if estatisticas['patrocinadores'] %}
+  <ul>
+    {% for p in estatisticas['patrocinadores'] %}
+      <li><strong>{{ p['cnpj'] }}</strong> - {{ p['nome'] }}</li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <p><em>Não foram informados patrocinadores válidos.</em></p>
+{% endif %}
+
